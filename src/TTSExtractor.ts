@@ -42,6 +42,7 @@ export class TTSExtractor extends BaseExtractor {
             thumbnail: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ITunes_12.2_logo.png",
             description: query,
             requestedBy: null,
+            raw: { query },
         };
 
         const track = new Track(this.context.player, {
@@ -54,8 +55,10 @@ export class TTSExtractor extends BaseExtractor {
             requestedBy: context.requestedBy,
             source: "arbitrary",
             metadata: trackInfo,
+            query: query,
             // @ts-expect-error queryType is not in the type definition
             queryType: "tts", 
+            raw: trackInfo.raw,
             async requestMetadata() {
                 return trackInfo;
             },
@@ -67,7 +70,8 @@ export class TTSExtractor extends BaseExtractor {
     }
 
     async stream(track: Track): Promise<Readable> {
-        const audioBuffer = await this.getCombinedAudioBuffer(track.description);
+        const raw = track.raw as unknown as { query: string };
+        const audioBuffer = await this.getCombinedAudioBuffer(raw.query);
         const audioStream = Readable.from(audioBuffer);
 
         return audioStream;
