@@ -42,7 +42,7 @@ export class TTSExtractor extends BaseExtractor {
             thumbnail: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ITunes_12.2_logo.png",
             description: query,
             requestedBy: null,
-            raw: { query },
+            raw: { query: query },
         };
 
         const track = new Track(this.context.player, {
