@@ -58,6 +58,8 @@ var TTSExtractor = class extends import_discord_player.BaseExtractor {
       requestedBy: context.requestedBy,
       source: "arbitrary",
       metadata: trackInfo,
+      // @ts-expect-error queryType is not in the type definition
+      queryType: "tts",
       async requestMetadata() {
         return trackInfo;
       }
