@@ -62,6 +62,7 @@ var TTSExtractor = class extends import_discord_player.BaseExtractor {
         return trackInfo;
       }
     });
+    track.extractor = this;
     return this.createResponse(null, [track]);
   }
   async stream(track) {

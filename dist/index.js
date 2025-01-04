@@ -40,6 +40,7 @@ var TTSExtractor = class extends BaseExtractor {
         return trackInfo;
       }
     });
+    track.extractor = this;
     return this.createResponse(null, [track]);
   }
   async stream(track) {

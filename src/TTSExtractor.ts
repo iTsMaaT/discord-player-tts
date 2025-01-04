@@ -58,7 +58,9 @@ export class TTSExtractor extends BaseExtractor {
                 return trackInfo;
             },
         });
-
+        
+        track.extractor = this;
+        
         return this.createResponse(null, [track]);
     }
 
