@@ -93,8 +93,8 @@ var TTSExtractor = class extends import_discord_player.BaseExtractor {
     };
     const sanitizedText = splitLongWords(inputText);
     const audioBase64Parts = await (0, import_google_tts_api.getAllAudioBase64)(sanitizedText, {
-      lang: "fr",
-      slow: false,
+      lang: this.options.language || "en",
+      slow: this.options.slow ?? false,
       splitPunct: ",.?!;:"
     });
     const audioBuffers = audioBase64Parts.map((part) => Buffer.from(part.base64, "base64"));

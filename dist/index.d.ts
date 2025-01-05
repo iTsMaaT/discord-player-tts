@@ -1,7 +1,11 @@
 import { BaseExtractor, SearchQueryType, ExtractorSearchContext, ExtractorInfo, Track } from 'discord-player';
 import { Readable } from 'stream';
 
-declare class TTSExtractor extends BaseExtractor {
+interface TTSExtractorOptions {
+    language: string;
+    slow: boolean;
+}
+declare class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     static identifier: string;
     activate(): Promise<void>;
     deactivate(): Promise<void>;
@@ -12,4 +16,4 @@ declare class TTSExtractor extends BaseExtractor {
     getCombinedAudioBuffer(inputText: string): Promise<Buffer>;
 }
 
-export { TTSExtractor };
+export { TTSExtractor, type TTSExtractorOptions };
