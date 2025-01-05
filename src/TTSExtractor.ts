@@ -17,8 +17,13 @@ import http from "http";
 import { getAllAudioBase64 } from "google-tts-api";
 import { Readable } from "stream";
 
+export interface TTSExtractorOptions {
+    language: string;
+    slow: boolean;
+}
 
-export class TTSExtractor extends BaseExtractor {
+
+export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     public static identifier = "com.itsmaat.discord-player.tts-extractor";
 
     async activate(): Promise<void> {
@@ -100,8 +105,8 @@ export class TTSExtractor extends BaseExtractor {
         const sanitizedText = splitLongWords(inputText);
     
         const audioBase64Parts = await getAllAudioBase64(sanitizedText, {
-            lang: "fr",
-            slow: false,
+            lang: this.options.language || "en",
+            slow: this.options.slow ?? false,
             splitPunct: ",.?!;:",
         });
     

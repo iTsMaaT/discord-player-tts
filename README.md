@@ -19,7 +19,7 @@ import { TTSExtractor } from "tts-extractor";
 
 const player = new Player(client, {});
 
-await player.extractors.register(TTSExtractor, { /* no options yet */ });
+await player.extractors.register(TTSExtractor, { /* options */ });
 ```
 
 To call it, you will need to use the `tts` protocol in your search query.
@@ -31,3 +31,10 @@ const query = "Never gonna give you up";
 
 player.play(voiceChannel, `tts:${query}`);
 ```
+
+## Options
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| language | string | "en" | The language to use for the TTS query. |
+| slow | boolean | false | Whether to use slower TTS speed. |
