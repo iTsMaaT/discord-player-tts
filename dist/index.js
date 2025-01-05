@@ -14,8 +14,7 @@ var TTSExtractor = class extends BaseExtractor {
     this.protocols = [];
   }
   async validate(query, type) {
-    if (typeof query !== "string") return false;
-    return type === "tts";
+    return typeof query === "string" && type === "tts";
   }
   async handle(query, context) {
     const trackInfo = {
@@ -58,10 +57,23 @@ var TTSExtractor = class extends BaseExtractor {
     return this.createResponse(null, []);
   }
   async getCombinedAudioBuffer(inputText) {
-    const audioBase64Parts = await getAllAudioBase64(inputText, {
+    const splitLongWords = (textInput) => {
+      const maxWordLength = 200;
+      return textInput.split(/\s+/).flatMap((word) => {
+        if (word.length > maxWordLength) {
+          const chunks = [];
+          for (let i = 0; i < word.length; i += maxWordLength)
+            chunks.push(word.slice(i, i + maxWordLength));
+          return chunks;
+        }
+        return word;
+      }).join(" ");
+    };
+    const sanitizedText = splitLongWords(inputText);
+    const audioBase64Parts = await getAllAudioBase64(sanitizedText, {
       lang: "fr",
       slow: false,
-      splitPunct: ",.?"
+      splitPunct: ",.?!;:"
     });
     const audioBuffers = audioBase64Parts.map((part) => Buffer.from(part.base64, "base64"));
     return Buffer.concat(audioBuffers);

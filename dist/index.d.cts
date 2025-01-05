@@ -5,7 +5,7 @@ declare class TTSExtractor extends BaseExtractor {
     static identifier: string;
     activate(): Promise<void>;
     deactivate(): Promise<void>;
-    validate(query: string, type: SearchQueryType): Promise<boolean>;
+    validate(query: string, type: SearchQueryType & "tts"): Promise<boolean>;
     handle(query: string, context: ExtractorSearchContext): Promise<ExtractorInfo>;
     stream(track: Track): Promise<Readable>;
     getRelatedTracks(): Promise<ExtractorInfo>;

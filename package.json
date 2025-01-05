@@ -31,7 +31,10 @@
     "discord",
     "bot",
     "music",
-    "soundgasm"
+    "text-to-speech",
+    "tts",
+    "voice",
+    "voice-channel"
   ],
   "devDependencies": {
     "@types/node": "^22.10.2",
