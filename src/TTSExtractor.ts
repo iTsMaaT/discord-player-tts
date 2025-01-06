@@ -74,6 +74,7 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     }
 
     async stream(track: Track): Promise<Readable> {
+        if (track.extractor !== this) throw new Error("Track is not from this extractor");
         const raw = track.raw as unknown as { query: string };
         const audioBuffer = await this.getCombinedAudioBuffer(raw.query);
         const audioStream = Readable.from(audioBuffer);

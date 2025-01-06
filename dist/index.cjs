@@ -70,6 +70,7 @@ var TTSExtractor = class extends import_discord_player.BaseExtractor {
     return this.createResponse(null, [track]);
   }
   async stream(track) {
+    if (track.extractor !== this) throw new Error("Track is not from this extractor");
     const raw = track.raw;
     const audioBuffer = await this.getCombinedAudioBuffer(raw.query);
     const audioStream = import_stream.Readable.from(audioBuffer);
