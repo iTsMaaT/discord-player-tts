@@ -150,7 +150,10 @@ var _TTSExtractor = class _TTSExtractor extends BaseExtractor {
     return typeof query === "string" && type === "tts";
   }
   async handle(query, context) {
-    if (!context.protocol || context.protocol !== "tts") throw new Error("Invalid extractor invocation, skipping...");
+    if (!context.protocol || context.protocol !== "tts") {
+      this.debug("Invalid protocol, skipping...");
+      return this.createResponse(null, []);
+    }
     const trackInfo = {
       title: "TTS Query",
       author: "google-tts-api",

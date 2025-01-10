@@ -41,7 +41,11 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     }    
 
     async handle(query: string, context: ExtractorSearchContext): Promise<ExtractorInfo> {
-        if (!context.protocol || context.protocol !== "tts") throw new Error("Invalid extractor invocation, skipping...");
+        if (!context.protocol || context.protocol !== "tts") {
+            this.debug("Invalid protocol, skipping...");
+            return this.createResponse(null, []);
+        }
+        
         const trackInfo = {
             title: "TTS Query",
             author: "google-tts-api",
