@@ -7,13 +7,14 @@ interface TTSExtractorOptions {
 }
 declare class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     static identifier: string;
+    static instance: TTSExtractor | null;
     activate(): Promise<void>;
     deactivate(): Promise<void>;
     validate(query: string, type: SearchQueryType & "tts"): Promise<boolean>;
     handle(query: string, context: ExtractorSearchContext): Promise<ExtractorInfo>;
     stream(track: Track): Promise<Readable>;
     getRelatedTracks(): Promise<ExtractorInfo>;
-    getCombinedAudioBuffer(inputText: string): Promise<Buffer>;
+    private getCombinedAudioBuffer;
 }
 
 export { TTSExtractor, type TTSExtractorOptions };

@@ -14,24 +14,26 @@ import { createReadStream, existsSync } from "fs";
 import type { IncomingMessage } from "http";
 import https from "https";
 import http from "http";
-import { getAllAudioBase64 } from "google-tts-api";
 import { Readable } from "stream";
+import { getAllAudioBase64 } from "./google-tts-api/getAudioBase64";
 
 export interface TTSExtractorOptions {
     language: string;
     slow: boolean;
 }
 
-
 export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     public static identifier = "com.itsmaat.discord-player.tts-extractor";
+    public static instance: TTSExtractor | null = null;
 
     async activate(): Promise<void> {
         this.protocols = ["tts"];
+        TTSExtractor.instance = this;
     }
 
     async deactivate(): Promise<void> {
         this.protocols = [];
+        TTSExtractor.instance = null;
     }
 
     async validate(query: string, type: SearchQueryType & "tts"): Promise<boolean> {
@@ -39,6 +41,7 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     }    
 
     async handle(query: string, context: ExtractorSearchContext): Promise<ExtractorInfo> {
+        if (!context.protocol || context.protocol !== "tts") throw new Error("Invalid extractor invocation, skipping...");
         const trackInfo = {
             title: "TTS Query",
             author: "google-tts-api",
@@ -74,21 +77,18 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     }
 
     async stream(track: Track): Promise<Readable> {
-        if (track.extractor !== this) throw new Error("Track is not from this extractor");
         const raw = track.raw as unknown as { query: string };
         const audioBuffer = await this.getCombinedAudioBuffer(raw.query);
         const audioStream = Readable.from(audioBuffer);
 
         return audioStream;
     }
-    
 
     async getRelatedTracks(): Promise<ExtractorInfo> {
         return this.createResponse(null, []);
     }
 
-    
-    async getCombinedAudioBuffer(inputText: string): Promise<Buffer> {
+    private async getCombinedAudioBuffer(inputText: string): Promise<Buffer> {
         const splitLongWords = (textInput: string) => {
             const maxWordLength = 200;
             return textInput.split(/\s+/).flatMap(word => {
@@ -114,5 +114,4 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
         const audioBuffers = audioBase64Parts.map(part => Buffer.from(part.base64, "base64"));
         return Buffer.concat(audioBuffers);
     }
-    
 }
