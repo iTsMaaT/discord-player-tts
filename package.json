@@ -1,6 +1,6 @@
 {
   "name": "tts-extractor",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A text-to-speech extractor for discord-player",
   "main": "dist/index.cjs",
   "exports": {
