@@ -32,6 +32,20 @@ const query = "Never gonna give you up";
 player.play(voiceChannel, `tts:${query}`);
 ```
 
+## Supported features
+
+| Feature | Supported |
+| --- | --- |
+| Single tracks | ❌* |
+| Playlists | ❌ |
+| Search | ❌ |
+| Direct streaming | ✅ |
+| Can be used as a bridge | ❌ |
+| Can bridge to ... | ❌ |
+| Autoplay | ❌ |
+
+\* Only works with raw queries.
+
 ## Options
 
 | Option | Type | Default | Description |
