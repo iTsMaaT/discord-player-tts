@@ -37,7 +37,7 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     }
 
     async validate(query: string, type: SearchQueryType & "tts"): Promise<boolean> {
-        return typeof query === "string" && type === "tts";
+        return typeof query === "string" && type === "tts" || new URL(query).protocol === "tts:";
     }    
 
     async handle(query: string, context: ExtractorSearchContext): Promise<ExtractorInfo> {
@@ -53,12 +53,13 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
             thumbnail: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ITunes_12.2_logo.png",
             description: query,
             requestedBy: null,
-            raw: { query: query },
+            raw: { query: query, type: "tts" },
         };
 
         const track = new Track(this.context.player, {
             title: trackInfo.title,
             duration: Util.buildTimeCode(Util.parseMS(trackInfo.duration)),
+            url: `tts://${trackInfo.title}`,
             description: trackInfo.description,
             thumbnail: trackInfo.thumbnail,
             views: 0,
