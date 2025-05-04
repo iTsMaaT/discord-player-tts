@@ -169,7 +169,7 @@ var _TTSExtractor = class _TTSExtractor extends import_discord_player.BaseExtrac
     _TTSExtractor.instance = null;
   }
   async validate(query, type) {
-    return typeof query === "string" && type === "tts";
+    return typeof query === "string" && type === "tts" || new URL(query).protocol === "tts:";
   }
   async handle(query, context) {
     if (!context.protocol || context.protocol !== "tts") {
@@ -183,11 +183,12 @@ var _TTSExtractor = class _TTSExtractor extends import_discord_player.BaseExtrac
       thumbnail: "https://upload.wikimedia.org/wikipedia/commons/2/2a/ITunes_12.2_logo.png",
       description: query,
       requestedBy: null,
-      raw: { query }
+      raw: { query, type: "tts" }
     };
     const track = new import_discord_player.Track(this.context.player, {
       title: trackInfo.title,
       duration: import_discord_player.Util.buildTimeCode(import_discord_player.Util.parseMS(trackInfo.duration)),
+      url: `tts://${trackInfo.title}`,
       description: trackInfo.description,
       thumbnail: trackInfo.thumbnail,
       views: 0,
