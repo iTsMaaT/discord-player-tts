@@ -5,7 +5,7 @@ This is a custom extractor for [discord-player](https://github.com/Androz2091/di
 ## Installation
 
 ```bash
-npm install tts-extractor
+npm install discord-player-tts
 ```
 
 ## Usage
@@ -13,9 +13,9 @@ npm install tts-extractor
 ```js
 const { Player } = require("discord-player");
 
-const { TTSExtractor } = require("tts-extractor");
+const { TTSExtractor } = require("discord-player-tts");
 // Or
-import { TTSExtractor } from "tts-extractor";
+import { TTSExtractor } from "discord-player-tts";
 
 const player = new Player(client, {});
 
