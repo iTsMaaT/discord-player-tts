@@ -37,7 +37,7 @@ export class TTSExtractor extends BaseExtractor<TTSExtractorOptions> {
     }
 
     async validate(query: string, type: SearchQueryType & "tts"): Promise<boolean> {
-        return typeof query === "string" && type === "tts" || new URL(query).protocol === "tts:";
+        return typeof query === "string" && (type === "tts" || new URL(query).protocol === "tts:");
     }    
 
     async handle(query: string, context: ExtractorSearchContext): Promise<ExtractorInfo> {
