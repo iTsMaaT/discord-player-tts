@@ -169,7 +169,7 @@ var _TTSExtractor = class _TTSExtractor extends import_discord_player.BaseExtrac
     _TTSExtractor.instance = null;
   }
   async validate(query, type) {
-    return typeof query === "string" && type === "tts" || new URL(query).protocol === "tts:";
+    return typeof query === "string" && (type === "tts" || new URL(query).protocol === "tts:");
   }
   async handle(query, context) {
     if (!context.protocol || context.protocol !== "tts") {
